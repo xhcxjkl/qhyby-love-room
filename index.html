@@ -247,8 +247,6 @@ h1{font-size:clamp(34px,7vw,66px);line-height:1.12;margin:12px 0 10px;
   let roomToken = "";
   let currentState = null;
   let busy = false;
-  let audioCtx = null;
-  let musicTimer = null;
   const $ = id => document.getElementById(id);
 
   function toast(msg) {
@@ -481,24 +479,34 @@ h1{font-size:clamp(34px,7vw,66px);line-height:1.12;margin:12px 0 10px;
     }
   }
 
-  // Lightweight original ambient melody, starts only after the user taps the music button.
-const bgAudio = new Audio("./gem-only.mp3");
-bgAudio.loop = true;
-bgAudio.preload = "auto";
+  // Local MP3 background music. Playback starts only after the user taps the music button.
+  const bgAudio = new Audio("./gem-only.mp3");
+  bgAudio.loop = true;
+  bgAudio.preload = "none";
+  bgAudio.volume = 0.7;
 
-async function toggleMusic() {
-  if (bgAudio.paused) {
+  async function toggleMusic() {
+    if (!bgAudio.paused) {
+      bgAudio.pause();
+      $("musicBtn").textContent = "♫ 开启音乐";
+      toast("背景音乐已关闭");
+      return;
+    }
+
     try {
       await bgAudio.play();
       $("musicBtn").textContent = "♫ 关闭音乐";
+      toast("《唯一》正在播放 ♡");
     } catch (err) {
-      toast("音乐播放失败，请检查音频文件");
+      $("musicBtn").textContent = "♫ 开启音乐";
+      toast("音乐播放失败：请确认 gem-only.mp3 已上传到 index.html 同一目录，并重新部署");
     }
-  } else {
-    bgAudio.pause();
-    $("musicBtn").textContent = "♫ 开启音乐";
   }
-}
+
+  bgAudio.addEventListener("error", () => {
+    $("musicBtn").textContent = "♫ 开启音乐";
+  });
+
 
   // Fireworks canvas
   const canvas=$("sky"),ctx=canvas.getContext("2d");let W=0,H=0,particles=[];
