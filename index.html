@@ -313,7 +313,7 @@ h1{font-size:clamp(34px,7vw,66px);line-height:1.12;margin:12px 0 10px;
       const disabled = !opened && alreadyToday;
       const button = document.createElement("button");
       button.className = "gift-box" + (opened?" opened":"") + (disabled?" locked":"");
-      button.disabled = busy || disabled;
+      button.disabled = disabled;
       const art = document.createElement("div"); art.className="box-art"; art.textContent=opened?(box.gift?.emoji||"🎁"):"🎁";
       const label = document.createElement("div"); label.className="box-label";
       label.textContent = opened ? (box.gift?.name || "已获得礼物") : `神秘礼物盒 ${i}`;
