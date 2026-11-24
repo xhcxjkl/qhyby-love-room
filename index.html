@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#21112f">
+<meta name="description" content="QHYBY LOVE ROOM · 七份只属于宝宝的惊喜">
+<title>QHYBY LOVE ROOM · 恭迎宝宝</title>
+<style>
+:root{
+  --pink:#ff9bc8;--rose:#f56cae;--lilac:#c9a6ff;--gold:#ffe2a8;
+  --ink:#fff8ff;--muted:#ead8ef;--glass:rgba(255,255,255,.105);
+  --line:rgba(255,255,255,.2);--shadow:0 22px 70px rgba(13,4,25,.35);
+}
+*{box-sizing:border-box}
+html{min-height:100%;background:#1a102a}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:ui-rounded,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+background:
+ radial-gradient(ellipse at 12% 12%,rgba(244,114,182,.25),transparent 34%),
+ radial-gradient(ellipse at 85% 20%,rgba(139,92,246,.30),transparent 36%),
+ radial-gradient(ellipse at 52% 100%,rgba(236,72,153,.18),transparent 45%),
+ linear-gradient(135deg,#1b102b 0%,#29143d 48%,#17132f 100%);
+overflow-x:hidden}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+#sky{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.ambient{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+.balloon{position:absolute;bottom:-150px;width:54px;height:68px;border-radius:52% 48% 48% 52%;opacity:.55;
+ filter:drop-shadow(0 8px 14px rgba(0,0,0,.15));animation:floatUp linear infinite}
+.balloon:before{content:"";position:absolute;left:50%;bottom:-12px;transform:translateX(-50%);
+ border-left:5px solid transparent;border-right:5px solid transparent;border-top:9px solid currentColor}
+.balloon:after{content:"";position:absolute;left:50%;top:100%;height:85px;border-left:1px solid rgba(255,255,255,.45)}
+.balloon b{display:block;text-align:center;font-size:24px;line-height:68px;color:#fff;text-shadow:0 2px 5px #b64d92}
+@keyframes floatUp{to{transform:translate3d(var(--drift),-125vh,0) rotate(12deg)}}
+.wrap{position:relative;z-index:2;width:min(1120px,calc(100% - 32px));margin:0 auto;padding:26px 0 58px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:26px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.08em}
+.brand-mark{width:42px;height:42px;display:grid;place-items:center;border-radius:15px;
+ background:linear-gradient(145deg,#ffb1d2,#a98bff);box-shadow:0 8px 25px #f06ab655;font-size:23px}
+.top-actions{display:flex;gap:9px;flex-wrap:wrap}
+.pill,.btn{border:1px solid var(--line);color:#fff;background:rgba(255,255,255,.10);
+ border-radius:999px;padding:10px 15px;backdrop-filter:blur(12px);transition:.2s}
+.pill{font-size:13px;color:#f8e9ff}
+.btn:hover,.pill:hover{transform:translateY(-2px);background:rgba(255,255,255,.18)}
+.btn.primary{border:0;background:linear-gradient(110deg,#f36eae,#9b7cf6);box-shadow:0 10px 28px #d45aa955;font-weight:750}
+.btn.gold{color:#482a48;background:linear-gradient(110deg,#ffe7b2,#ffb7d6);border:0;font-weight:750}
+.hero{text-align:center;padding:20px 12px 26px}
+.eyebrow{color:#ffd9ee;letter-spacing:.28em;font-size:12px;text-transform:uppercase}
+h1{font-size:clamp(34px,7vw,66px);line-height:1.12;margin:12px 0 10px;
+ background:linear-gradient(100deg,#fff4f9,#ffacd2 42%,#d6baff 78%,#fff1c9);
+ -webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 8px 38px #ee7bb533}
+.subtitle{color:#f2dff3;margin:0 auto;max-width:650px;line-height:1.8;font-size:15px}
+.hero-heart{font-size:25px;letter-spacing:12px;margin-top:12px;filter:drop-shadow(0 0 12px #ff86c8)}
+.statusbar{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:10px 0 24px}
+.status{padding:9px 14px;border-radius:999px;background:rgba(255,255,255,.09);border:1px solid var(--line);
+ color:#f8e9ff;font-size:13px;backdrop-filter:blur(10px)}
+.status strong{color:#ffe4b3}
+.panel{border:1px solid var(--line);background:linear-gradient(145deg,rgba(255,255,255,.13),rgba(255,255,255,.055));
+ border-radius:28px;box-shadow:var(--shadow);backdrop-filter:blur(18px);padding:clamp(18px,3vw,30px)}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:20px}
+.section-head h2{margin:0;font-size:22px}
+.section-head p{margin:5px 0 0;color:#e6d1ec;font-size:13px}
+.box-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:17px}
+.gift-box{position:relative;min-height:190px;border:1px solid rgba(255,255,255,.18);border-radius:22px;
+ background:linear-gradient(155deg,rgba(255,255,255,.14),rgba(255,255,255,.055));color:#fff;
+ display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:15px 10px;
+ overflow:hidden;transition:transform .25s,border-color .25s,background .25s}
+.gift-box:before{content:"";position:absolute;width:150px;height:150px;border-radius:50%;background:#f8a7d4;
+ filter:blur(55px);opacity:.13;top:-65px;right:-50px}
+.gift-box:hover:not(:disabled){transform:translateY(-7px) scale(1.02);border-color:#ffc4e3;background:rgba(255,255,255,.15)}
+.gift-box:disabled{cursor:default;opacity:.78}
+.box-art{font-size:66px;line-height:1.1;filter:drop-shadow(0 12px 13px rgba(0,0,0,.3));transition:transform .3s}
+.gift-box:hover .box-art{transform:rotate(-5deg) scale(1.08)}
+.box-label{font-weight:750;font-size:15px}
+.box-hint{font-size:12px;color:#e9d7ed}
+.gift-box.opened{background:linear-gradient(145deg,rgba(255,223,174,.17),rgba(255,160,210,.12));border-color:#ffd9a9}
+.gift-box.opened .box-art{font-size:53px}
+.gift-box.locked{filter:saturate(.6)}
+.notice{margin-top:18px;padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.075);
+ color:#f4e5f5;font-size:13px;line-height:1.7;border:1px solid rgba(255,255,255,.1)}
+.footer{text-align:center;color:#d9c4e2;font-size:12px;margin-top:22px;line-height:1.8}
+.hidden{display:none!important}
+.overlay{position:fixed;inset:0;z-index:20;background:rgba(12,5,22,.72);backdrop-filter:blur(13px);
+ display:flex;align-items:center;justify-content:center;padding:18px}
+.dialog{width:min(520px,100%);border:1px solid rgba(255,255,255,.25);border-radius:27px;
+ background:linear-gradient(145deg,#382044,#21152f);box-shadow:0 30px 100px #0008;padding:28px;text-align:center}
+.dialog h2{margin:0 0 10px;font-size:26px}
+.dialog p{color:#e9d7ee;line-height:1.7;font-size:14px}
+.field{width:100%;border:1px solid rgba(255,255,255,.22);border-radius:13px;background:rgba(0,0,0,.2);
+ padding:13px 14px;color:#fff;outline:none;margin:8px 0}
+.field:focus{border-color:#ffadd4;box-shadow:0 0 0 3px #f48cbd22}
+.field::placeholder{color:#bda9c8}
+.dialog-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:12px}
+.gift-reveal{font-size:78px;margin:12px 0;animation:pop .65s cubic-bezier(.2,1.6,.4,1)}
+@keyframes pop{from{transform:scale(.1) rotate(-25deg);opacity:0}to{transform:scale(1);opacity:1}}
+.reveal-title{font-size:27px;color:#ffe3b7;margin:8px 0}
+.reveal-detail{color:#f0deef;line-height:1.8}
+.splash{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;text-align:center;
+ background:radial-gradient(ellipse at center,#63345f 0%,#2c1742 48%,#130d24 100%);transition:opacity 1.4s,visibility 1.4s}
+.splash.fade{opacity:0;visibility:hidden}
+.splash-inner{padding:20px;animation:splashIn 1.1s both}
+.splash-kicker{color:#ffd8ef;letter-spacing:.38em;font-size:13px}
+.splash h1{font-size:clamp(40px,9vw,82px);margin:20px 0}
+.splash p{color:#f7d9ec}
+@keyframes splashIn{from{opacity:0;transform:translateY(22px) scale(.96)}to{opacity:1;transform:none}}
+.admin-dialog{text-align:left;max-height:90vh;overflow:auto}
+.admin-dialog h2{text-align:center}
+.admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.admin-item{padding:12px;border:1px solid var(--line);border-radius:15px;background:#ffffff0b}
+.admin-item label{font-size:12px;color:#f2d9ec}
+.admin-item input,.admin-item textarea{margin:5px 0 0;padding:9px;font-size:13px}
+.admin-item textarea{min-height:55px;resize:vertical}
+.small{font-size:12px;color:#d9c6e1}
+.toast{position:fixed;z-index:80;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;
+ background:#fff1f8;color:#552548;padding:12px 18px;border-radius:999px;box-shadow:var(--shadow);transition:.25s;max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.loading{opacity:.65;pointer-events:none}
+@media(max-width:760px){.box-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.gift-box{min-height:165px}.box-art{font-size:57px}
+ .section-head{align-items:start;flex-direction:column}.wrap{width:min(100% - 22px,650px);padding-top:16px}.topbar{align-items:flex-start}
+ .brand{font-size:13px}.brand-mark{width:36px;height:36px}.top-actions{justify-content:flex-end}.btn{padding:9px 12px;font-size:12px}
+ .panel{border-radius:22px;padding:17px}.admin-grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<canvas id="sky"></canvas>
+<div class="ambient" id="ambient"></div>
+
+<div class="splash" id="splash">
+  <div class="splash-inner">
+    <div class="splash-kicker">A LITTLE SURPRISE FOR YOU</div>
+    <h1>恭迎 QHYBY 宝宝</h1>
+    <p>所有浪漫，都为你准备好了 ♡</p>
+    <button class="btn gold" id="enterBtn">开启惊喜 ✨</button>
+  </div>
+</div>
+
+<main class="wrap">
+  <header class="topbar">
+    <div class="brand"><div class="brand-mark">💗</div><span>QHYBY LOVE ROOM</span></div>
+    <div class="top-actions">
+      <button class="btn" id="musicBtn">♫ 开启音乐</button>
+      <button class="btn" id="shareBtn">分享给宝宝</button>
+      <button class="btn" id="adminBtn">管理员</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="eyebrow">A WEEK OF LITTLE HAPPINESS</div>
+    <h1>专属于宝宝的七份惊喜</h1>
+    <p class="subtitle">每一个礼物盒里，都藏着一份小小的偏爱。<br>今天会拆开什么呢？♡</p>
+    <div class="hero-heart">♡ ✦ ♡ ✦ ♡</div>
+  </section>
+
+  <div class="statusbar">
+    <div class="status" id="cycleStatus">💞 正在准备你们的惊喜</div>
+    <div class="status" id="dailyStatus">🎁 每天共享一次开盒机会</div>
+    <div class="status" id="countStatus">✨ 本轮已开启 0 / 7</div>
+  </div>
+
+  <section class="panel">
+    <div class="section-head">
+      <div><h2>挑选一个礼物盒</h2><p>每天只能开启一个，记得认真选择哦。</p></div>
+      <span class="pill" id="todayLabel">♡ 给宝宝的小小惊喜</span>
+    </div>
+    <div class="box-grid" id="boxGrid">
+      <div class="small">正在连接你们的礼物屋……</div>
+    </div>
+    <div class="notice" id="mainNotice">💌 小提示：你和宝宝共用同一个开盒机会。一方开启后，另一方也会同步看到结果。</div>
+  </section>
+
+  <div class="footer">Made with love for QHYBY · 每一份惊喜，都只想送给你 ♡<br><span id="connectionText">等待连接</span></div>
+</main>
+
+<!-- room token setup -->
+<div class="overlay hidden" id="setupOverlay">
+  <div class="dialog">
+    <div style="font-size:48px">🔐</div>
+    <h2>连接你们的专属礼物屋</h2>
+    <p>请输入创建情侣空间时生成的 <b>room_token</b>。它只保存在当前浏览器，不会写入网站文件。</p>
+    <input class="field" id="roomInput" type="password" autocomplete="off" placeholder="粘贴 room_token（64 位字符）">
+    <div class="dialog-actions">
+      <button class="btn primary" id="saveRoomBtn">连接礼物屋</button>
+    </div>
+    <p class="small">请不要在这里输入 admin_token。管理员密钥只在管理员入口使用。</p>
+  </div>
+</div>
+
+<!-- gift reveal -->
+<div class="overlay hidden" id="revealOverlay">
+  <div class="dialog">
+    <div style="font-size:12px;letter-spacing:.25em;color:#f8cde4">A GIFT FOR YOU</div>
+    <div class="gift-reveal" id="revealEmoji">🎁</div>
+    <div class="reveal-title" id="revealName">惊喜礼物</div>
+    <p id="revealNote"></p>
+    <div class="reveal-detail" id="revealDetail"></div>
+    <div class="dialog-actions"><button class="btn gold" id="returnBtn">收下礼物，返回主页 ♡</button></div>
+  </div>
+</div>
+
+<!-- admin -->
+<div class="overlay hidden" id="adminOverlay">
+  <div class="dialog admin-dialog">
+    <h2>🔑 礼物屋管理员</h2>
+    <div id="adminLogin">
+      <p>请输入你的管理员密钥。密钥仅保存在当前浏览器标签页会话中。</p>
+      <input class="field" id="adminInput" type="password" autocomplete="off" placeholder="粘贴 admin_token">
+      <div class="dialog-actions">
+        <button class="btn primary" id="adminLoginBtn">进入管理</button>
+        <button class="btn" data-close="adminOverlay">取消</button>
+      </div>
+    </div>
+    <div id="adminTools" class="hidden">
+      <p class="small">礼物模板按 slot 1–7 管理。保存后会更新对应礼物内容；已开启历史快照不受影响。</p>
+      <div class="admin-grid" id="adminGrid"></div>
+      <div class="dialog-actions">
+        <button class="btn primary" id="saveAllGiftsBtn">保存礼物修改</button>
+        <button class="btn gold" id="resetCycleBtn">手动开启新七日周期</button>
+        <button class="btn" id="adminLogoutBtn">退出管理员</button>
+        <button class="btn" data-close="adminOverlay">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(() => {
+  "use strict";
+  // Supabase public browser configuration. The publishable key is designed for browser use.
+  const SUPABASE_URL = "https://sahxllorgiqrebvhvdif.supabase.co";
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_aTL_FMV0RWQfzrh1vShbiw_O6lRriCD";
+  const ROOM_STORAGE_KEY = "qhyby_love_room_token_v1";
+  const ADMIN_STORAGE_KEY = "qhyby_love_admin_token_v1";
+
+  const defaultGifts = [
+    {emoji:"🧋",name:"奶茶一杯",note:"今天的快乐由奶茶承包！",detail:"宝宝可以指定喜欢的奶茶口味、甜度和冰度。"},
+    {emoji:"🍱",name:"允许放纵餐",note:"今天不用考虑热量啦！",detail:"宝宝自由选择一顿喜欢的大餐。"},
+    {emoji:"📸",name:"吉吉照一张",note:"留下属于我们的可爱瞬间！",detail:"获得一张专属拍照机会。"},
+    {emoji:"🎮",name:"手瓦皮肤一件",note:"宝宝的游戏装备升级啦！",detail:"宝宝可以指定一件喜欢的手瓦皮肤。"},
+    {emoji:"🍰",name:"小蛋糕一个",note:"甜甜的蛋糕送给甜甜的宝宝！",detail:"挑选一个喜欢的小蛋糕。"},
+    {emoji:"🍫",name:"小零食巧克力脆脆鲨一份",note:"偷偷给宝宝补充快乐能量！",detail:"专属巧克力脆脆鲨一份。"},
+    {emoji:"🍲",name:"包宝宝用餐一份",note:"今天的用餐安排由宝宝决定！",detail:"一份专属用餐惊喜。"}
+  ];
+
+  let roomToken = "";
+  let currentState = null;
+  let busy = false;
+  let audioCtx = null;
+  let musicTimer = null;
+  const $ = id => document.getElementById(id);
+
+  function toast(msg) {
+    const el = $("toast"); el.textContent = msg; el.classList.add("show");
+    clearTimeout(toast._timer); toast._timer = setTimeout(() => el.classList.remove("show"), 3000);
+  }
+  function show(id) { $(id).classList.remove("hidden"); }
+  function hide(id) { $(id).classList.add("hidden"); }
+
+  async function rpc(name, body) {
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/${name}`, {
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        "apikey":SUPABASE_PUBLISHABLE_KEY,
+        "Authorization":`Bearer ${SUPABASE_PUBLISHABLE_KEY}`
+      },
+      body:JSON.stringify(body)
+    });
+    const raw = await response.text();
+    let data;
+    try { data = raw ? JSON.parse(raw) : null; } catch { data = raw; }
+    if (!response.ok) {
+      const message = data && (data.message || data.error_description || data.hint || data.details) || raw || `HTTP ${response.status}`;
+      throw new Error(message);
+    }
+    return data;
+  }
+
+  async function loadState() {
+    if (!roomToken) { show("setupOverlay"); $("connectionText").textContent="尚未配置 room_token"; return; }
+    setBusy(true);
+    try {
+      currentState = await rpc("get_public_gift_state", {p_room_token:roomToken});
+      renderState();
+      $("connectionText").textContent="已连接 Supabase 云端礼物屋";
+      hide("setupOverlay");
+    } catch (err) {
+      $("connectionText").textContent="连接失败";
+      $("mainNotice").textContent = "连接失败：" + err.message + "。请检查 room_token、RPC 权限和数据库函数。";
+      show("setupOverlay");
+      toast("暂时无法连接礼物屋，请检查配置");
+    } finally { setBusy(false); }
+  }
+
+  function setBusy(v) { busy = v; document.body.classList.toggle("loading",v); }
+
+  function renderState() {
+    if (!currentState) return;
+    const boxes = Array.isArray(currentState.boxes) ? currentState.boxes : [];
+    const openedCount = Number(currentState.opened_count ?? boxes.filter(b=>b.opened).length);
+    const alreadyToday = !!currentState.today_opened;
+    $("countStatus").innerHTML = `✨ 本轮已开启 <strong>${openedCount} / 7</strong>`;
+    $("dailyStatus").innerHTML = alreadyToday ? "🔒 今天的开盒机会已使用" : "🎁 今天还有一次开盒机会";
+    const start = currentState.cycle_start;
+    const end = currentState.cycle_end;
+    $("cycleStatus").textContent = start ? `💞 本轮开始：${start} · 结束：${end || "第七天后"}` : "💞 七日之旅将在第一次开盒时开始";
+    $("todayLabel").textContent = currentState.today ? `今天 · ${currentState.today}` : "♡ 给宝宝的小小惊喜";
+    const grid = $("boxGrid");
+    grid.innerHTML = "";
+    for (let i=1;i<=7;i++) {
+      const box = boxes.find(b=>Number(b.box_no)===i);
+      const opened = !!(box && box.opened);
+      const disabled = !opened && alreadyToday;
+      const button = document.createElement("button");
+      button.className = "gift-box" + (opened?" opened":"") + (disabled?" locked":"");
+      button.disabled = busy || disabled;
+      const art = document.createElement("div"); art.className="box-art"; art.textContent=opened?(box.gift?.emoji||"🎁"):"🎁";
+      const label = document.createElement("div"); label.className="box-label";
+      label.textContent = opened ? (box.gift?.name || "已获得礼物") : `神秘礼物盒 ${i}`;
+      const hint = document.createElement("div"); hint.className="box-hint";
+      hint.textContent = opened ? "已开启 · 点击回顾" : (disabled ? "今日机会已用完" : "点击开启惊喜");
+      button.append(art,label,hint);
+      button.addEventListener("click",()=>onBoxClick(i,box));
+      grid.appendChild(button);
+    }
+    if (alreadyToday) {
+      $("mainNotice").textContent = "💗 今天的惊喜已经由你们其中一人开启啦！明天再来拆下一份。已开启的礼物仍然可以随时点开回顾。";
+    } else {
+      $("mainNotice").textContent = "💌 你和宝宝共用同一个开盒机会。一方开启后，另一方刷新页面也会同步看到结果。";
+    }
+  }
+
+  async function onBoxClick(boxNo, box) {
+    if (busy) return;
+    if (box && box.opened) { reveal(box.gift); return; }
+    if (currentState?.today_opened) { toast("今天已经开启过礼物啦，明天再来 ♡"); return; }
+    setBusy(true);
+    try {
+      const result = await rpc("open_public_gift", {p_room_token:roomToken,p_box_no:boxNo});
+      if (result && result.ok === false) {
+        if (result.code === "DAILY_LIMIT" || result.code === "ALREADY_OPENED") {
+          toast(result.message || "今天的开盒机会已经使用");
+          await refreshQuietly();
+          return;
+        }
+        throw new Error(result.message || "开盒失败");
+      }
+      const gift = result?.gift;
+      await refreshQuietly();
+      if (gift) reveal(gift);
+      else toast("礼物已开启，请刷新查看");
+    } catch (err) {
+      toast("开盒失败：" + err.message);
+    } finally { setBusy(false); }
+  }
+
+  async function refreshQuietly() {
+    currentState = await rpc("get_public_gift_state", {p_room_token:roomToken});
+    renderState();
+  }
+
+  function reveal(gift) {
+    $("revealEmoji").textContent = gift?.emoji || "🎁";
+    $("revealName").textContent = gift?.name || "一份神秘惊喜";
+    $("revealNote").textContent = gift?.note || "这份礼物属于最可爱的宝宝。";
+    $("revealDetail").textContent = gift?.detail || "";
+    show("revealOverlay");
+    burst(window.innerWidth/2,window.innerHeight/2,42);
+  }
+
+  function saveRoomToken() {
+    const value = $("roomInput").value.trim();
+    if (!/^[a-fA-F0-9]{64}$/.test(value)) { toast("room_token 应为 64 位十六进制字符"); return; }
+    roomToken = value;
+    localStorage.setItem(ROOM_STORAGE_KEY,value);
+    hide("setupOverlay");
+    loadState();
+  }
+
+  function getRoomTokenFromHash() {
+    const hash = location.hash.startsWith("#") ? location.hash.slice(1) : "";
+    const params = new URLSearchParams(hash);
+    const token = params.get("room");
+    if (token && /^[a-fA-F0-9]{64}$/.test(token)) {
+      localStorage.setItem(ROOM_STORAGE_KEY,token);
+      history.replaceState(null,"",location.pathname+location.search);
+    }
+  }
+
+  async function shareLink() {
+    if (!roomToken) { show("setupOverlay"); toast("先连接 room_token 才能生成分享链接"); return; }
+    const url = `${location.origin}${location.pathname}#room=${encodeURIComponent(roomToken)}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      toast("宝宝专属访问链接已复制，请私下发送给她 ♡");
+    } catch {
+      prompt("复制下面的宝宝专属访问链接，并私下发送：",url);
+    }
+  }
+
+  function openAdmin() {
+    $("adminLogin").classList.remove("hidden");
+    $("adminTools").classList.add("hidden");
+    $("adminInput").value = "";
+    show("adminOverlay");
+    const saved = sessionStorage.getItem(ADMIN_STORAGE_KEY);
+    if (saved) {
+      $("adminInput").value = saved;
+      authenticateAdmin(saved);
+    }
+  }
+
+  async function authenticateAdmin(token) {
+    if (!/^[a-fA-F0-9]{64}$/.test(token)) { toast("管理员密钥格式不正确"); return; }
+    sessionStorage.setItem(ADMIN_STORAGE_KEY,token);
+    $("adminLogin").classList.add("hidden");
+    $("adminTools").classList.remove("hidden");
+    renderAdminForm();
+  }
+
+  function renderAdminForm() {
+    const grid = $("adminGrid"); grid.innerHTML="";
+    defaultGifts.forEach((gift,index)=>{
+      const slot=index+1, card=document.createElement("div"); card.className="admin-item";
+      const title=document.createElement("label"); title.textContent=`礼物模板 ${slot}`;
+      const emoji=document.createElement("input"); emoji.className="field"; emoji.dataset.field="emoji"; emoji.value=gift.emoji; emoji.placeholder="表情";
+      const name=document.createElement("input"); name.className="field"; name.dataset.field="name"; name.value=gift.name; name.placeholder="礼物名称";
+      const note=document.createElement("textarea"); note.className="field"; note.dataset.field="note"; note.value=gift.note; note.placeholder="提示文案";
+      const detail=document.createElement("textarea"); detail.className="field"; detail.dataset.field="detail"; detail.value=gift.detail; detail.placeholder="详细说明";
+      card.append(title,emoji,name,note,detail); card.dataset.slot=slot; grid.append(card);
+    });
+  }
+
+  async function saveAdminGifts() {
+    const token=sessionStorage.getItem(ADMIN_STORAGE_KEY);
+    if (!token) { toast("请先输入管理员密钥"); return; }
+    setBusy(true);
+    try {
+      const cards=[...$("adminGrid").children];
+      for (const card of cards) {
+        const get = key => card.querySelector(`[data-field="${key}"]`).value.trim();
+        await rpc("update_public_gift",{
+          p_admin_token:token,p_slot:Number(card.dataset.slot),
+          p_emoji:get("emoji"),p_name:get("name"),p_note:get("note"),p_detail:get("detail")
+        });
+      }
+      toast("七份礼物模板已保存 ♡");
+      await refreshQuietly();
+    } catch(err) { toast("保存失败："+err.message); }
+    finally { setBusy(false); }
+  }
+
+  async function resetCycle() {
+    if (!confirm("确定现在开启全新的七日周期吗？本轮礼物将重新随机分配。")) return;
+    const token=sessionStorage.getItem(ADMIN_STORAGE_KEY);
+    setBusy(true);
+    try {
+      const result=await rpc("reset_public_gift_cycle",{p_admin_token:token});
+      toast(`新一轮礼物屋已开启 · 第 ${result?.cycle_no || "新"} 轮`);
+      await refreshQuietly();
+    } catch(err) { toast("重置失败："+err.message); }
+    finally { setBusy(false); }
+  }
+
+  function logoutAdmin() {
+    sessionStorage.removeItem(ADMIN_STORAGE_KEY);
+    $("adminLogin").classList.remove("hidden"); $("adminTools").classList.add("hidden");
+    $("adminInput").value=""; toast("已退出管理员");
+  }
+
+  function createBalloons() {
+    const colors=["#ff91c7","#b99aff","#ffd08a","#f5a6df","#9fdcf2"];
+    for(let i=0;i<13;i++){
+      const b=document.createElement("div"); b.className="balloon";
+      b.style.left=(Math.random()*100)+"%"; b.style.background=colors[i%colors.length];
+      b.style.color=colors[i%colors.length]; b.style.animationDuration=(18+Math.random()*20)+"s";
+      b.style.animationDelay=(-Math.random()*28)+"s"; b.style.setProperty("--drift",(Math.random()*150-75)+"px");
+      const heart=document.createElement("b"); heart.textContent="♥"; b.append(heart); $("ambient").append(b);
+    }
+  }
+
+  // Lightweight original ambient melody, starts only after the user taps the music button.
+  function toggleMusic() {
+    if (audioCtx) {
+      clearInterval(musicTimer); audioCtx.close(); audioCtx=null; musicTimer=null;
+      $("musicBtn").textContent="♫ 开启音乐"; toast("背景音乐已关闭"); return;
+    }
+    try {
+      audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+      const notes=[523.25,659.25,783.99,659.25,587.33,698.46,880,698.46];
+      let n=0;
+      const play=()=>{
+        if(!audioCtx)return;
+        const osc=audioCtx.createOscillator(), gain=audioCtx.createGain();
+        osc.type="sine"; osc.frequency.value=notes[n++%notes.length];
+        gain.gain.setValueAtTime(.0001,audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(.035,audioCtx.currentTime+.08);
+        gain.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+1.15);
+        osc.connect(gain);gain.connect(audioCtx.destination);osc.start();osc.stop(audioCtx.currentTime+1.2);
+      };
+      play();musicTimer=setInterval(play,850);$("musicBtn").textContent="♫ 关闭音乐";
+    } catch { toast("当前浏览器暂不支持音乐播放"); }
+  }
+
+  // Fireworks canvas
+  const canvas=$("sky"),ctx=canvas.getContext("2d");let W=0,H=0,particles=[];
+  function resize(){W=canvas.width=innerWidth*devicePixelRatio;H=canvas.height=innerHeight*devicePixelRatio;canvas.style.width=innerWidth+"px";canvas.style.height=innerHeight+"px";ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0)}
+  addEventListener("resize",resize);resize();
+  function burst(x,y,count=34){
+    const palette=["#ff9bc8","#ffe2a8","#c9a6ff","#ffffff","#8ee7f4"];
+    for(let i=0;i<count;i++){const a=Math.random()*Math.PI*2,s=1.1+Math.random()*4.4;
+      particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:45+Math.random()*30,max:75,color:palette[Math.floor(Math.random()*palette.length)],r:1+Math.random()*2.3});}
+  }
+  function animate(){
+    ctx.clearRect(0,0,innerWidth,innerHeight);
+    for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.x+=p.vx;p.y+=p.vy;p.vy+=.035;p.vx*=.992;p.life--;
+      ctx.globalAlpha=Math.max(0,p.life/p.max);ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();
+      if(p.life<=0)particles.splice(i,1);}
+    ctx.globalAlpha=1;requestAnimationFrame(animate);
+  }
+  animate();setInterval(()=>{if(Math.random()<.8)burst(Math.random()*innerWidth,Math.random()*innerHeight*.48,24)},2400);
+
+  $("enterBtn").addEventListener("click",()=> $("splash").classList.add("fade"));
+  setTimeout(()=> $("splash").classList.add("fade"),4200);
+  $("saveRoomBtn").addEventListener("click",saveRoomToken);
+  $("roomInput").addEventListener("keydown",e=>{if(e.key==="Enter")saveRoomToken()});
+  $("shareBtn").addEventListener("click",shareLink);
+  $("adminBtn").addEventListener("click",openAdmin);
+  $("musicBtn").addEventListener("click",toggleMusic);
+  $("returnBtn").addEventListener("click",()=>hide("revealOverlay"));
+  $("adminLoginBtn").addEventListener("click",()=>authenticateAdmin($("adminInput").value.trim()));
+  $("saveAllGiftsBtn").addEventListener("click",saveAdminGifts);
+  $("resetCycleBtn").addEventListener("click",resetCycle);
+  $("adminLogoutBtn").addEventListener("click",logoutAdmin);
+  document.querySelectorAll("[data-close]").forEach(btn=>btn.addEventListener("click",()=>hide(btn.dataset.close)));
+
+  createBalloons();getRoomTokenFromHash();
+  roomToken=localStorage.getItem(ROOM_STORAGE_KEY)||"";
+  if(roomToken)loadState();else show("setupOverlay");
+})();
+</script>
+</body>
+</html>
