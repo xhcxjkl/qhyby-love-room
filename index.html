@@ -97,7 +97,7 @@ h1{font-size:clamp(34px,7vw,66px);line-height:1.12;margin:12px 0 10px;
 .reveal-detail{color:#f0deef;line-height:1.8}
 .splash{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;text-align:center;
  background:radial-gradient(ellipse at center,#63345f 0%,#2c1742 48%,#130d24 100%);transition:opacity 1.4s,visibility 1.4s}
-.splash.fade{opacity:0;visibility:hidden}
+.splash.fade{opacity:0;visibility:hidden;pointer-events:none}
 .splash-inner{padding:20px;animation:splashIn 1.1s both}
 .splash-kicker{color:#ffd8ef;letter-spacing:.38em;font-size:13px}
 .splash h1{font-size:clamp(40px,9vw,82px);margin:20px 0}
@@ -147,7 +147,7 @@ h1{font-size:clamp(34px,7vw,66px);line-height:1.12;margin:12px 0 10px;
 
   <section class="hero">
     <div class="eyebrow">A WEEK OF LITTLE HAPPINESS</div>
-    <h1>专属于qhyby宝宝的礼物小屋</h1>
+    <h1>专属于宝宝的七份惊喜</h1>
     <p class="subtitle">每一个礼物盒里，都藏着一份小小的偏爱。<br>今天会拆开什么呢？♡</p>
     <div class="hero-heart">♡ ✦ ♡ ✦ ♡</div>
   </section>
@@ -479,14 +479,45 @@ h1{font-size:clamp(34px,7vw,66px);line-height:1.12;margin:12px 0 10px;
     }
   }
 
-  // Local MP3 background music. Playback starts only after the user taps the music button.
+  // 背景音乐：开场保持安静，进入主页时尝试自动播放。
   const MUSIC_URL = new URL("/qhyby-love-room/gem-only.mp3", location.origin).href;
   const bgAudio = new Audio(MUSIC_URL);
   bgAudio.loop = true;
   bgAudio.preload = "none";
   bgAudio.volume = 0.7;
 
+  let mainEntered = false;
+  let autoMusicPending = true;
+
+  async function playMainMusic() {
+    if (!mainEntered || !autoMusicPending) return;
+    try {
+      await bgAudio.play();
+      autoMusicPending = false;
+      $("musicBtn").textContent = bgAudio.paused ? "♫ 开启音乐" : "♫ 关闭音乐";
+    } catch (err) {
+      // 自动播放被浏览器限制时，等待主页上的下一次用户操作。
+      console.debug("QHYBY autoplay pending:", err?.name);
+    }
+  }
+
+  function enterMainPage() {
+    if (mainEntered) return;
+    mainEntered = true;
+    $("splash").classList.add("fade");
+    // 直接在点击事件中调用 play，保留浏览器用户激活权限。
+    playMainMusic();
+  }
+
+  function retryMainMusic(event) {
+    if (!mainEntered || !autoMusicPending || !event.isTrusted) return;
+    if (event.target instanceof Element && event.target.closest("#musicBtn, #enterBtn")) return;
+    playMainMusic();
+  }
+
   async function toggleMusic() {
+    // 用户主动操作音乐按钮后，不再自动启动音乐。
+    autoMusicPending = false;
     if (!bgAudio.paused) {
       bgAudio.pause();
       $("musicBtn").textContent = "♫ 开启音乐";
@@ -497,7 +528,7 @@ h1{font-size:clamp(34px,7vw,66px);line-height:1.12;margin:12px 0 10px;
     try {
       await bgAudio.play();
       $("musicBtn").textContent = "♫ 关闭音乐";
-      toast("《唯一》正在播放 ♡");
+      toast("背景音乐已开启 ♡");
     } catch (err) {
       $("musicBtn").textContent = "♫ 开启音乐";
       const reason = err && err.name ? err.name : "未知错误";
@@ -540,8 +571,11 @@ h1{font-size:clamp(34px,7vw,66px);line-height:1.12;margin:12px 0 10px;
   }
   animate();setInterval(()=>{if(Math.random()<.8)burst(Math.random()*innerWidth,Math.random()*innerHeight*.48,24)},2400);
 
-  $("enterBtn").addEventListener("click",()=> $("splash").classList.add("fade"));
-  setTimeout(()=> $("splash").classList.add("fade"),4200);
+  $("enterBtn").addEventListener("click", enterMainPage);
+  setTimeout(enterMainPage, 4200);
+  // 定时进入主页时若自动播放受限，首次点击或键盘操作时重试。
+  document.addEventListener("click", retryMainMusic, true);
+  document.addEventListener("keydown", retryMainMusic, true);
   $("saveRoomBtn").addEventListener("click",saveRoomToken);
   $("roomInput").addEventListener("keydown",e=>{if(e.key==="Enter")saveRoomToken()});
   $("shareBtn").addEventListener("click",shareLink);
